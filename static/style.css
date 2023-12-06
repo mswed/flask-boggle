@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.box {
+    display: flex;
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+
+    border: 3px solid #333;
+    background-color: #dfdfdf;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.form {
+    display: flex;
+    justify-content: space-around;
+    margin: auto;
+    width: 40%;
+}

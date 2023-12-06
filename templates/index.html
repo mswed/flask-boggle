@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/static/style.css">
+    <title>Boggle!</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h1>BOGGLE!</h1>
+    </div>
+
+    {% for row in session['board'] %}
+    <div class="row">
+
+        {% for column in row %}
+        <div class="box">
+            <h1>{{column}}</h1>
+        </div>
+        {% endfor %}
+
+    </div>
+    {% endfor %}
+    <hr>
+    <form action="" class="form">
+        <label for="guess">Guess:</label>
+        <input type="text" name="guess" id="guess">
+        <button type="submit">Go!</button>
+    </form>
+</div>
+
+
+</body>
+</html>
