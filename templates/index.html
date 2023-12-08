@@ -14,6 +14,14 @@
         <h1>BOGGLE!</h1>
     </div>
 
+    <div class="stats-row">
+        <h2>Score:</h2>
+        <h2 id="score">{{session["score"]}}</h2>
+
+        <h2>Timer:</h2>
+        <h2 id="timer">{{session["score"]}}</h2>
+    </div>
+
     {% for row in session['board'] %}
     <div class="row">
 
@@ -32,6 +40,14 @@
         <button type="submit" id="guess-btn">Go!</button>
     </form>
     <h3 id="messages" class="row"></h3>
+    <div class="row">
+        <ul>
+            {% for hint in session['hints']%}
+            <li>{{hint}}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>

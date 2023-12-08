@@ -33,3 +33,11 @@
     margin: auto;
     width: 40%;
 }
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    width: 55%;
+
+}

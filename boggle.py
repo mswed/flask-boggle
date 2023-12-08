@@ -1,5 +1,5 @@
 """Utilities related to Boggle game."""
-
+from pprint import pprint
 from random import choice
 import string
 
@@ -31,7 +31,6 @@ class Boggle():
 
     def check_valid_word(self, board, word):
         """Check if a word is a valid word in the dictionary and/or the boggle board"""
-
         word_exists = word in self.words
         valid_word = self.find(board, word.upper())
 
@@ -133,7 +132,6 @@ class Boggle():
 
         # Find starting letter --- try every spot on board and,
         # win fast, should we find the word at that place.
-
         for y in range(0, 5):
             for x in range(0, 5):
                 if self.find_from(board, word, y, x, seen=set()):
