@@ -16,10 +16,11 @@
 
     <div class="stats-row">
         <h2>Score:</h2>
-        <h2 id="score">{{session["score"]}}</h2>
-
+        <h2><span id="score">{{session["score"]}} </span><span id="high-score">({{session['high_score']}})</span></h2>
+        <h2>Times Played:</h2>
+        <h2 id="times-played">{{session["times_played"]}}</h2>
         <h2>Timer:</h2>
-        <h2 id="timer">{{session["score"]}}</h2>
+        <h2 id="timer"></h2>
     </div>
 
     {% for row in session['board'] %}
