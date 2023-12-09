@@ -1,5 +1,6 @@
+import json
 from unittest import TestCase
-from app import app
+from app import app, find_hints
 from flask import session
 from boggle import Boggle
 
@@ -29,7 +30,7 @@ class FlaskTests(TestCase):
             found_words = []
             for word in game.words:
                 if game.find(session['board'], word):
-                    found_words.append(word.upper())
+                    found_words.append(word)
             test_words = list((set(found_words)))[0:3]
 
             # Test 3 words we found to make sure we get the correct OK response
@@ -54,5 +55,45 @@ class FlaskTests(TestCase):
             result = client.post('/guess', data={'guess': 'rlkewjrlkweanag'})
             self.assertTrue(result.json)
             self.assertEqual(result.json, {'result': 'not-word'})
+
+    def test_end_game(self):
+        # Initialize a game
+        game = Boggle()
+        with app.test_client() as client:
+            # Start a game
+            client.get('/')
+            client.post('/end', data=json.dumps({'score': 100}), content_type='application/json')
+            self.assertEqual(session['times_played'], 1)
+            self.assertEqual(session['high_score'], 100)
+
+            client.post('/end', data=json.dumps({'score': 200}), content_type='application/json')
+            self.assertEqual(session['times_played'], 2)
+            self.assertEqual(session['high_score'], 200)
+
+    def test_find_hints(self):
+        # Initialize a game
+        game = Boggle()
+        with app.test_client() as client:
+            # Start a game
+            client.get('/')
+            # Vanilla
+            result = find_hints(session['board'])
+            self.assertEqual(len(result), 10)
+
+            # word count
+            result = find_hints(session['board'], word_count=5)
+            self.assertEqual(len(result), 5)
+
+            # word length
+            result = find_hints(session['board'], length=7)
+            self.assertTrue(all(len(x) >= 7 for x in result))
+
+            # all params
+            result = find_hints(session['board'], length=3, word_count=3)
+            print(result)
+            self.assertEqual(len(result), 3)
+            self.assertTrue(all(len(x) >= 3 for x in result))
+
+
 
 

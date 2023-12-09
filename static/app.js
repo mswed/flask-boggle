@@ -1,56 +1,75 @@
-const guessBtn = document.querySelector('#guess-btn')
-const guessText = document.querySelector('#guess')
-const msg = document.querySelector('#messages')
-const score = document.querySelector('#score')
-const allowedTime = 2
-const timer = document.querySelector('#timer')
-const timesPlayed = document.querySelector('#times-played')
-const highScore = document.querySelector('#high-score')
+class Game {
+    // Define fields
+    guessBtn = document.querySelector('#guess-btn')
+    guessText = document.querySelector('#guess')
+    msg = document.querySelector('#messages')
+    score = document.querySelector('#score')
+    timer = document.querySelector('#timer')
+    timesPlayed = document.querySelector('#times-played')
+    highScore = document.querySelector('#high-score')
+    interval
 
-guessBtn.addEventListener('click', async (evt) => {
-    evt.preventDefault()
-    console.log('Sending a guess!')
-    await submitGuess()
-})
+    constructor(countDown) {
+        this.countDown = countDown
+        this.timer.innerText = this.countDown
+        this.guessBtn.addEventListener('click', async (evt) => {
+            evt.preventDefault()
+            console.log('Sending a guess!')
+            await this.submitGuess()
+        })
 
-async function submitGuess() {
-    if (parseInt(timer.innerText) < allowedTime) {
-        console.log(parseInt(timer.innerText) < allowedTime)
-        const data = new FormData();
-        data.append('guess', guessText.value)
-        const res = await axios.post('/guess', data)
-        console.log(res.data.result)
-        if (res.data.result === 'ok') {
-            score.innerText = parseInt(score.innerText) + guessText.value.length
-        }
-        msg.innerText = `Server says ${guessText.value} is ${res.data.result}`
+        this.startTimer()
+
     }
 
-}
+    startTimer() {
+        this.interval = setInterval(this.tick.bind(this), 1000)
+    }
 
-
-document.addEventListener('DOMContentLoaded', (evt) => {
-    let runTime = 0
-    let interval = setInterval(function () {
-        let time = parseInt(timer.innerText)
-        if (runTime === allowedTime - 1) {
-            clearInterval(interval)
-            endGame()
+    tick() {
+        if (this.countDown === 0) {
+            clearInterval(this.interval)
+            this.endGame()
+        } else {
+            this.countDown -= 1
+            this.timer.innerText = this.countDown
         }
-        runTime += 1
-        timer.innerText = runTime
 
-    }, 1000)
-})
+    }
+    async submitGuess() {
+        if (parseInt(this.timer.innerText) < this.countDown) {
+            console.log(parseInt(this.timer.innerText) < this.countDown)
+            const data = new FormData();
+            data.append('guess', this.guessText.value)
+            const res = await axios.post('/guess', data)
+            if (res.data.result === 'ok') {
+                this.score.innerText = parseInt(this.score.innerText) + this.guessText.value.length
+            }
+           this. msg.innerText = `{${this.guessText.value} ${this.makeReadable(res.data.result)}`
+        }
+    }
 
-const endGame = async function () {
-    const data = {score: score.innerText}
-    const res = await axios.post('/end', data)
-    timesPlayed.innerText = parseInt(timesPlayed.innerText) + 1
-    let cleanHighScore = highScore.innerText.replace('(', '')
-    cleanHighScore = parseInt(cleanHighScore.replace(')', ''))
+    makeReadable(message) {
+        const msgMap = {
+            'ok': 'Nice!',
+            'not-word': 'is not a valid word',
+            'not-on-board': 'is not on the board'
+        }
+        return msgMap[message]
+    }
 
-    highScore.innerText = `(${cleanHighScore + 1})`
-    alert('Ooops! Your time is up! ')
+    async endGame() {
+        const data = {score: this.score.innerText}
+        const res = await axios.post('/end', data)
+        this.timesPlayed.innerText = parseInt(this.timesPlayed.innerText) + 1
+        let cleanHighScore = this.highScore.innerText.replace('(', '')
+        cleanHighScore = parseInt(cleanHighScore.replace(')', ''))
+
+        this.highScore.innerText = `(${cleanHighScore + 1})`
+        alert('Ooops! Your time is up! ')
+    }
+
 
 }
+
+const g = new Game(10)
