@@ -26,11 +26,11 @@ class Game {
                 for (let loc of location) {
                     const target =`#y${loc[0] + 1} #x${loc[1] + 1}`
                     const box = document.querySelector(target)
-                    box.classList.add('test')
+                    box.classList.add('highlight')
                     // box.style.backgroundColor = 'pink'
                     setTimeout(() => {
                         for (let box of document.querySelectorAll('.box')) {
-                            box.classList.remove('test')
+                            box.classList.remove('highlight')
                         }
                     }, 3000)
                 }
@@ -57,9 +57,9 @@ class Game {
             this.countDown -= 1
             this.timer.innerText = this.countDown
             if (this.countDown <= 10) {
-                this.timer.style.color = 'red'
+                this.timer.style.color = '#DD0426'
             } else if (this.countDown <= this.originalLength / 2) {
-                this.timer.style.color = 'orange'
+                this.timer.style.color = '#FF5714'
             }
         }
 
@@ -72,7 +72,7 @@ class Game {
             if (res.data.result === 'ok') {
                 this.score.innerText = parseInt(this.score.innerText) + this.guessText.value.length
                 this.msg.innerText = `${this.guessText.value} ${this.makeReadable(res.data.result)}`
-                this.msg.style.color = '#37FF8B'
+                this.msg.style.color = '#379634'
             } else {
                 this.msg.innerText = `${this.guessText.value} ${this.makeReadable(res.data.result)}`
                 this.msg.style.color = '#DD0426'

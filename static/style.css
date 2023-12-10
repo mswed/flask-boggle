@@ -3,7 +3,7 @@ h1, h2, h3, label, button, input {
 }
 
 body {
-    background-color: #C7F0BD;
+    background-color: #8C5383;
 }
 .container {
     display: flex;
@@ -26,23 +26,23 @@ body {
     width: 100px;
     height: 100px;
     margin: 5px;
-    border: 3px solid #333;
-    background-color: #F283B6;
+    border: 6px solid #FFB100;
+    background-color: #FFEDC2;
     justify-content: center;
     align-items: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 
 }
-.test {
+.highlight {
     animation-name: highlight;
     animation-duration: 3s;
 }
 @keyframes highlight {
-    0% { background-color: #F283B6; }
-    25% { background-color: #FCB97D; }
-    75% { background-color: #F283B6; }
-    100% { background-color: #F283B6; }
+    0% { background-color: #FFEDC2; }
+    25% { background-color: #FF5714; }
+    75% { background-color: #FF5714; }
+    100% { background-color: #FFEDC2; }
 
 }
 
@@ -64,7 +64,7 @@ body {
 .msg-line {
     margin: 10px 20px;
     min-height: 50px;
-    background-color: #6BA292;
+    background-color: #95A3B3;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
