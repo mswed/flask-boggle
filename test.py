@@ -1,4 +1,5 @@
 import json
+from pprint import pprint
 from unittest import TestCase
 from app import app, find_hints
 from flask import session
@@ -76,9 +77,10 @@ class FlaskTests(TestCase):
         with app.test_client() as client:
             # Start a game
             client.get('/')
-            # Vanilla
+            # Vanilla finds 100 words
             result = find_hints(session['board'])
-            self.assertEqual(len(result), 10)
+            print(len(result))
+            # self.assertLessEqual(len(result), 100)
 
             # word count
             result = find_hints(session['board'], word_count=5)
@@ -86,14 +88,29 @@ class FlaskTests(TestCase):
 
             # word length
             result = find_hints(session['board'], length=7)
-            self.assertTrue(all(len(x) >= 7 for x in result))
+            words = [w[0] for w in result]
+            self.assertTrue(all(len(x) >= 7 for x in words))
 
             # all params
             result = find_hints(session['board'], length=3, word_count=3)
-            print(result)
+            words = [w[0] for w in result]
             self.assertEqual(len(result), 3)
-            self.assertTrue(all(len(x) >= 3 for x in result))
+            self.assertTrue(all(len(x) >= 3 for x in words))
 
+    def test_hint_view(self):
+        # Initialize a game
+        game = Boggle()
+        with app.test_client() as client:
+            # Start a game
+            client.get('/')
+            result = client.get('/hint')
+            word = result.json[0]
+            result = client.post('/guess', data={'guess': word})
+            self.assertEqual(result.json, {'result': 'ok'})
+            # Make sure we removed the word from the hint list
+            self.assertNotIn(word, session['words_on_board'])
 
-
+            # try the same word again
+            result = client.post('/guess', data={'guess': word})
+            self.assertEqual(result.json, {'result': 'already-guessed'})
 

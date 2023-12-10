@@ -1,3 +1,10 @@
+h1, h2, h3, label, button, input {
+    font-family: 'Modern Antiqua', serif;
+}
+
+body {
+    background-color: #C7F0BD;
+}
 .container {
     display: flex;
     flex-direction: column;
@@ -19,11 +26,23 @@
     width: 100px;
     height: 100px;
     margin: 5px;
-
     border: 3px solid #333;
-    background-color: #dfdfdf;
+    background-color: #F283B6;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+
+}
+.test {
+    animation-name: highlight;
+    animation-duration: 3s;
+}
+@keyframes highlight {
+    0% { background-color: #F283B6; }
+    25% { background-color: #FCB97D; }
+    75% { background-color: #F283B6; }
+    100% { background-color: #F283B6; }
 
 }
 
@@ -39,5 +58,13 @@
     justify-content: space-between;
     margin: auto;
     width: 55%;
+
+}
+
+.msg-line {
+    margin: 10px 20px;
+    min-height: 50px;
+    background-color: #6BA292;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
 }
